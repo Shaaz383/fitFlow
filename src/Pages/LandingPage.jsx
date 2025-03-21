@@ -1,14 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import logo from "../assets/logoDark.png"; // Import your logo
+
 
 
 export default function LandingPage() {
   return (
-    <div className="bg-black min-h-screen flex flex-col justify-center items-center text-white p-6">
+    <div className="bg-black min-h-screen flex flex-col justify-center items-center text-white py-4 px-6">
 
         {/* Logo Section with Proper Alignment */}
-        <div className="absolute top-8 left-6">
-        <img src="/logo.svg" alt="Logo" className="w-8" />
+        <div className="">
+        <img src={logo} alt="Logo" className="h-32 filter invert " />
       </div>
 
       {/* Top Section with Image */}
@@ -33,7 +35,7 @@ export default function LandingPage() {
       </div>
 
       {/* Login Section */}
-      <p className="mt-4 text-gray-400">
+      <p className="mt-2 text-gray-400">
         Already have an account? <Link to="/signin" className="text-white font-semibold cursor-pointer hover:underline">
           Log In
         </Link> 

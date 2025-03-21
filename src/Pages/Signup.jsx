@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import logo from "../assets/logoDark.png"; // Import your logo
+
 
 
 export default function Signup() {
@@ -27,7 +29,10 @@ export default function Signup() {
   };
 
   return (
-    <div className=" bg-black min-h-screen flex flex-col items-center text-white px-6 py-10">
+    <div className=" bg-black min-h-screen flex flex-col items-center text-white px-6 py-2">
+
+         {/* Logo */}
+          <img src={logo} alt="Logo" className="h-32  filter invert" />
       
       {/* Title */}
       <h2 className="text-4xl font-extrabold mb-4">Create Account</h2>
@@ -80,7 +85,7 @@ export default function Signup() {
       </form>
 
       {/* Already have an account? */}
-      <p className="mt-6 text-gray-400 text-sm">
+      <p className=" text-gray-400 text-sm">
         Already have an account ? &nbsp; 
         <Link to="/signin" className="text-white font-semibold cursor-pointer hover:underline">
           Log In

@@ -1,18 +1,19 @@
 import { useState } from "react";
 import {
   LineChart, Line, BarChart, Bar, PieChart, Pie,
-  Tooltip, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend,Cell
+  Tooltip, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend, Cell
 } from "recharts";
-import { FaWeight, FaBurn, FaChartLine, FaBicycle } from "react-icons/fa";
+import { FaWeight, FaBurn, FaChartLine, FaBicycle, FaCalendarAlt } from "react-icons/fa";
 import BottomNavbar from "../customComponents/BottomNavbar";
+import logo from "../assets/logoDark.png"; // Import logo
 
 const ProgressPage = () => {
+  const [timeframe, setTimeframe] = useState("Week");
   const [weightData] = useState([
-    { date: "Mar 1", weight: 80 },
-    { date: "Mar 5", weight: 79.5 },
-    { date: "Mar 10", weight: 79 },
-    { date: "Mar 15", weight: 78.8 },
-    { date: "Mar 20", weight: 78.5 },
+    { date: "Week 1", weight: 80 },
+    { date: "Week 2", weight: 79.5 },
+    { date: "Week 3", weight: 79 },
+    { date: "Week 4", weight: 78.8 },
   ]);
 
   const calorieData = [
@@ -31,47 +32,42 @@ const ProgressPage = () => {
 
   return (
     <div className="bg-black text-white min-h-screen pb-20">
-      {/* Header Section */}
-      <div className="p-4">
+      {/* Header Section with Logo */}
+      <div className="p-4 flex justify-between items-center">
+        <img src={logo} alt="Logo" className="h-20 filter invert" />
         <h2 className="text-xl font-bold text-white">Your Progress</h2>
+        <div className="bg-gray-800 p-2 rounded-lg flex items-center space-x-2">
+          <FaCalendarAlt className="text-yellow-500" />
+          <select
+            className="bg-transparent text-white outline-none"
+            value={timeframe}
+            onChange={(e) => setTimeframe(e.target.value)}
+          >
+            <option className="text-black" value="Week">Week</option>
+            <option className="text-black" value="Month">Month</option>
+            <option className="text-black" value="Year">Year</option>
+          </select>
+        </div>
       </div>
 
       {/* Overview Cards */}
       <div className="grid grid-cols-2 gap-4 p-4">
-        <div className="bg-gray-900 p-4 rounded-lg flex items-center space-x-3">
-          <FaWeight className="text-blue-400 text-xl" />
-          <div>
-            <p className="text-sm text-gray-400">Current Weight</p>
-            <h3 className="text-lg font-semibold text-white">78.5 kg</h3>
-          </div>
+        <div className="bg-gray-900 p-6 rounded-xl flex flex-col items-center text-center">
+          <FaWeight className="text-blue-400 text-2xl" />
+          <p className="text-sm text-gray-400 mt-2">Current Weight</p>
+          <h3 className="text-lg font-semibold text-white">78.5 kg</h3>
         </div>
-        <div className="bg-gray-900 p-4 rounded-lg flex items-center space-x-3">
-          <FaChartLine className="text-blue-400 text-xl" />
-          <div>
-            <p className="text-sm text-gray-400">Goal Weight</p>
-            <h3 className="text-lg font-semibold text-white">75 kg</h3>
-          </div>
-        </div>
-        <div className="bg-gray-900 p-4 rounded-lg flex items-center space-x-3">
-          <FaBurn className="text-yellow-500 text-xl" />
-          <div>
-            <p className="text-sm text-gray-400">Calories Burned</p>
-            <h3 className="text-lg font-semibold text-white">12,500 kcal</h3>
-          </div>
-        </div>
-        <div className="bg-gray-900 p-4 rounded-lg flex items-center space-x-3">
-          <FaBicycle className="text-yellow-500 text-xl" />
-          <div>
-            <p className="text-sm text-gray-400">Active Days</p>
-            <h3 className="text-lg font-semibold text-white">15 Days</h3>
-          </div>
+        <div className="bg-gray-900 p-6 rounded-xl flex flex-col items-center text-center">
+          <FaChartLine className="text-green-400 text-2xl" />
+          <p className="text-sm text-gray-400 mt-2">Goal Weight</p>
+          <h3 className="text-lg font-semibold text-white">75 kg</h3>
         </div>
       </div>
 
-      {/* Charts Section */}
+      {/* Progress Graphs */}
       <div className="p-4">
         <h3 className="text-lg font-semibold text-white">Weight Progress</h3>
-        <div className="bg-gray-900 p-4 rounded-lg">
+        <div className="bg-gray-900 p-4 rounded-xl">
           <ResponsiveContainer width="100%" height={250}>
             <LineChart data={weightData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#444" />
@@ -87,7 +83,7 @@ const ProgressPage = () => {
 
       <div className="p-4">
         <h3 className="text-lg font-semibold text-white">Calories Intake</h3>
-        <div className="bg-gray-900 p-4 rounded-lg">
+        <div className="bg-gray-900 p-4 rounded-xl">
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={calorieData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#444" />
@@ -103,7 +99,7 @@ const ProgressPage = () => {
 
       <div className="p-4">
         <h3 className="text-lg font-semibold text-white">Macronutrient Breakdown</h3>
-        <div className="bg-gray-900 p-4 rounded-lg">
+        <div className="bg-gray-900 p-4 rounded-xl">
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Tooltip />
