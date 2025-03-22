@@ -1,3 +1,6 @@
+import { WeightContext } from "@/context/WeightContext";
+import { useContext } from "react";
+
 const WeightGoalInput = ({
   currentWeight,
   setCurrentWeight,

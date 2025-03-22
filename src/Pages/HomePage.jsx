@@ -1,25 +1,27 @@
-import { useState } from "react";
-import { FaWeight, FaFire, FaTint, FaWalking, FaDumbbell, FaUtensils, FaHeartbeat } from "react-icons/fa";
+import { useState, useContext } from "react";
+import { FaWeight, FaWalking, FaTint, FaDumbbell, FaUtensils } from "react-icons/fa";
 import Header from "../customComponents/Header";
 import HeroSection from "../customComponents/Homepage/HeroSection";
 import QuickStats from "../customComponents/Homepage/QuickStats";
 import PlanCard from "../customComponents/Homepage/PlanCard";
-// import HealthInsights from "../customComponents/Homepage/HealthInsights";
 import BottomNavbar from "../customComponents/BottomNavbar";
 import BMICalculator from "../customComponents/Homepage/BMICalculator";
-import CalorieProgressCard from "../customComponents/Homepage/CalorieProgressCard"; // Import the new component
+import { WeightContext } from "../context/WeightContext"; // Import WeightContext
 
 const HomePage = () => {
   const userName = "John"; // Replace with dynamic value
+  const { currentWeight, setCurrentWeight } = useContext(WeightContext); // Use WeightContext
 
   const [stats, setStats] = useState([
-    { icon: <FaWeight className="text-yellow-400 text-4xl" />, title: "Weight", value: "78.5 kg" },
-    { icon: <FaFire className="text-red-400 text-4xl" />, title: "Calories", value: "1,200 kcal" },
-    { icon: <FaTint className="text-blue-400 text-4xl" />, title: "Water", value: "2.5 L" },
-    { icon: <FaWalking className="text-green-400 text-4xl" />, title: "Step Count", value: "5,000 steps" }
+    { icon: <FaWeight className="text-yellow-400 text-4xl" />, title: "Weight", value: `${currentWeight} kg` },
+    { icon: <FaWalking className="text-green-400 text-4xl" />, title: "Steps Today", value: "10,500" }, // Added Steps
+    { icon: <FaTint className="text-blue-400 text-4xl" />, title: "Water", value: "2.5 L" }
   ]);
 
   const updateStat = (title, newValue) => {
+    if (title === "Weight") {
+      setCurrentWeight(parseFloat(newValue)); // Update context state
+    }
     setStats((prevStats) =>
       prevStats.map((stat) =>
         stat.title === title ? { ...stat, value: newValue } : stat
@@ -30,11 +32,6 @@ const HomePage = () => {
   const plans = [
     { icon: <FaDumbbell className="text-red-400 text-4xl" />, title: "Workout Plan", description: "Tailored exercises for you." },
     { icon: <FaUtensils className="text-green-400 text-4xl" />, title: "Diet Plan", description: "Balanced meals made easy." }
-  ];
-
-  const insights = [
-    { icon: <FaTint className="text-blue-400 text-4xl" />, title: "Hydration", description: "Track your water intake." },
-    { icon: <FaHeartbeat className="text-pink-400 text-4xl" />, title: "Heart Rate", description: "Monitor your heart health." }
   ];
 
   return (
@@ -49,11 +46,6 @@ const HomePage = () => {
       <div className="p-4">
         <h2 className="text-2xl font-bold mb-4">Daily Stats</h2>
         <QuickStats stats={stats} updateStat={updateStat} />
-      </div>
-
-      {/* Calorie Progress Card */}
-      <div className="p-4">
-        <CalorieProgressCard />
       </div>
 
       {/* Health Tools Section */}
@@ -71,12 +63,6 @@ const HomePage = () => {
           ))}
         </div>
       </div>
-
-      {/* Health Insights Section */}
-      {/* <div className="p-2">
-        <h2 className="text-2xl font-bold mb-4">Stay Healthy</h2>
-        <HealthInsights insights={insights} />
-      </div> */}
 
       {/* Bottom Navigation */}
       <BottomNavbar />

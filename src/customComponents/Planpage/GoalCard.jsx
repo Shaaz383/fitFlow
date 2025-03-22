@@ -1,6 +1,11 @@
+import { WeightContext } from "@/context/WeightContext";
+import { useContext } from "react";
 import { FaWeight, FaBullseye, FaFire } from "react-icons/fa";
 
-const GoalCard = ({ currentWeight, goalWeight, goalType }) => {
+
+const GoalCard = () => {
+  const { currentWeight, goalWeight, goalType } = useContext(WeightContext); // Use WeightContext
+
   return (
     <div className="p-4">
       <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl shadow-lg border border-gray-700">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import BottomNavbar from "@/customComponents/BottomNavbar";
 import DatePicker from "@/customComponents/Planpage/DatePicker";
 import DietPlanOverview from "@/customComponents/Planpage/DietPlanOverview";
@@ -7,14 +7,13 @@ import DietSuggestions from "@/customComponents/Planpage/DietSuggestions";
 import WeightGoalInput from "@/customComponents/Planpage/WeightGoalInput";
 import GoalCard from "@/customComponents/Planpage/GoalCard";
 import FullDayMealPlan from "@/customComponents/Planpage/FullDayMealPlan";
+import { WeightContext } from "../context/WeightContext"; // Import WeightContext
 
 const PlanPage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [meals, setMeals] = useState([]); // List of logged meals
   const [dailyCalories, setDailyCalories] = useState(2000); // Default daily calorie target
-  const [currentWeight, setCurrentWeight] = useState(70); // Current weight
-  const [goalWeight, setGoalWeight] = useState(65); // Goal weight
-  const [goalType, setGoalType] = useState("weight_loss"); // Goal type (weight loss or muscle building)
+  const { currentWeight, goalWeight, goalType } = useContext(WeightContext); // Use WeightContext
 
   // Handle date change
   const handleDateChange = (date) => {
@@ -38,15 +37,15 @@ const PlanPage = () => {
   return (
     <div className="bg-gray-900 text-white min-h-screen pb-20 relative">
       {/* Weight and Goal Input */}
-      <WeightGoalInput
+      {/* <WeightGoalInput
         currentWeight={currentWeight}
-        setCurrentWeight={setCurrentWeight}
+        setCurrentWeight={(weight) => setCurrentWeight(weight)}
         goalWeight={goalWeight}
-        setGoalWeight={setGoalWeight}
+        setGoalWeight={(weight) => setGoalWeight(weight)}
         goalType={goalType}
-        setGoalType={setGoalType}
+        setGoalType={(type) => setGoalType(type)}
         calculateDailyCalories={calculateDailyCalories}
-      />
+      /> */}
 
       {/* Goal Card */}
       <GoalCard currentWeight={currentWeight} goalWeight={goalWeight} goalType={goalType} />
@@ -54,21 +53,16 @@ const PlanPage = () => {
       {/* Full-Day Meal Plan */}
       <FullDayMealPlan goalType={goalType} dailyCalories={dailyCalories} />
 
-      {/* Interactive Date Picker */}
-      <DatePicker selectedDate={selectedDate} handleDateChange={handleDateChange} />
-
       {/* Diet Plan Overview */}
       <DietPlanOverview
-  selectedDate={selectedDate}
-  meals={meals}
-  dailyCalories={dailyCalories}
-  goalType={goalType} // Pass goalType here
-/>
+        selectedDate={selectedDate}
+        meals={meals}
+        dailyCalories={dailyCalories}
+        goalType={goalType}
+      />
+
       {/* Meal Logging */}
       <MealLogging addMeal={addMeal} />
-
-      {/* Diet Suggestions */}
-      {/* <DietSuggestions dailyCalories={dailyCalories} goalType={goalType} /> */}
 
       {/* Bottom Navigation */}
       <BottomNavbar />

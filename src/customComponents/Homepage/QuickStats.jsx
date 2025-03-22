@@ -1,102 +1,68 @@
-import { useState } from "react";
-import { FaWeight, FaFire, FaTint, FaWalking } from "react-icons/fa";
+import { useState, useContext } from "react";
+import { FaWalking } from "react-icons/fa"; // Icon for steps
+import WeightGoalInput from "../Planpage/WeightGoalInput";
+import { WeightContext } from "@/context/WeightContext";
 
-const QuickStats = ({ stats, updateStat }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedStat, setSelectedStat] = useState(null);
-  const [inputValue, setInputValue] = useState("");
-
-  const handleCardClick = (stat) => {
-    setSelectedStat(stat);
-    setIsModalOpen(true);
-  };
-
-  const handleSave = () => {
-    if (selectedStat && inputValue) {
-      const value = parseFloat(inputValue);
-
-      // Validate input (cannot be negative)
-      if (value < 0) {
-        alert("Value cannot be negative!");
-        return;
-      }
-
-      // Append unit based on the card type
-      let newValue;
-      switch (selectedStat.title) {
-        case "Weight":
-          newValue = `${value} kg`;
-          break;
-        case "Calories":
-          newValue = `${value} kcal`;
-          break;
-        case "Water":
-          newValue = `${value} L`;
-          break;
-        case "Step Count":
-          newValue = `${value} steps`;
-          break;
-        default:
-          newValue = inputValue;
-      }
-
-      // For Calories and Water, add the new value to the existing value
-      if (selectedStat.title === "Calories" || selectedStat.title === "Water") {
-        const currentValue = parseFloat(selectedStat.value);
-        newValue = `${currentValue + value} ${selectedStat.title === "Calories" ? "kcal" : "L"}`;
-      }
-
-      // Update the stat value in the parent component
-      updateStat(selectedStat.title, newValue);
-      setIsModalOpen(false);
-      setInputValue("");
-    }
-  };
+const QuickStats = ({ stats }) => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const { currentWeight, setCurrentWeight, goalWeight, setGoalWeight, goalType, setGoalType } =
+    useContext(WeightContext);
 
   return (
-    <div className="grid grid-cols-2 gap-4 p-2">
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
       {stats.map((stat, index) => (
         <div
           key={index}
-          onClick={() => handleCardClick(stat)}
-          className="bg-gray-800 p-4 rounded-lg flex items-center space-x-4 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:scale-105"
+          className="bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
         >
-          {stat.icon}
-          <div>
-            <p className="text-sm text-gray-400">{stat.title}</p>
-            <h3 className="text-sm font-semibold">{stat.value}</h3>
+          <div className="flex items-center space-x-4">
+            {stat.icon}
+            <div>
+              <p className="text-gray-400 text-sm">{stat.title}</p>
+              <p className="text-white font-semibold">{stat.value}</p>
+            </div>
           </div>
         </div>
       ))}
 
-      {/* Modal for Updating Stats */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center">
-          <div className="bg-gray-900 p-6 rounded-lg w-80">
-            <h3 className="text-lg font-semibold mb-4">Update {selectedStat?.title}</h3>
-            <input
-              type="number"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              className="w-full p-2 mb-4 rounded bg-gray-800 text-white"
-              placeholder={`Enter ${selectedStat?.title}`}
-              min="0" // Prevent negative values
+    
+
+      {/* Popup */}
+      {isPopupOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-gray-900 p-6 rounded-lg w-full max-w-md">
+            <WeightGoalInput
+              currentWeight={currentWeight}
+              setCurrentWeight={setCurrentWeight}
+              goalWeight={goalWeight}
+              setGoalWeight={setGoalWeight}
+              goalType={goalType}
+              setGoalType={setGoalType}
+              calculateDailyCalories={() => setIsPopupOpen(false)}
             />
             <button
-              onClick={handleSave}
-              className="w-full bg-blue-500 text-white py-2 rounded-lg"
+              onClick={() => setIsPopupOpen(false)}
+              className="w-full bg-red-500 text-white font-bold py-2 rounded-lg hover:bg-red-400 transition mt-4"
             >
-              Save
-            </button>
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="w-full bg-gray-700 text-white py-2 rounded-lg mt-2"
-            >
-              Cancel
+              Close
             </button>
           </div>
         </div>
       )}
+
+      {/* Update Goal Card */}
+      <div
+        className="bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+        onClick={() => setIsPopupOpen(true)}
+      >
+        <div className="flex items-center space-x-4">
+          <FaWalking className="text-yellow-500 text-2xl" />
+          <div>
+            <p className="text-gray-400 text-sm">Update Goal</p>
+            <p className="text-white font-semibold">Set Your Goal</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
