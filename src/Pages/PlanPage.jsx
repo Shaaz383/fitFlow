@@ -36,16 +36,7 @@ const PlanPage = () => {
 
   return (
     <div className="bg-gray-900 text-white min-h-screen pb-20 relative">
-      {/* Weight and Goal Input */}
-      {/* <WeightGoalInput
-        currentWeight={currentWeight}
-        setCurrentWeight={(weight) => setCurrentWeight(weight)}
-        goalWeight={goalWeight}
-        setGoalWeight={(weight) => setGoalWeight(weight)}
-        goalType={goalType}
-        setGoalType={(type) => setGoalType(type)}
-        calculateDailyCalories={calculateDailyCalories}
-      /> */}
+  
 
       {/* Goal Card */}
       <GoalCard currentWeight={currentWeight} goalWeight={goalWeight} goalType={goalType} />
@@ -54,15 +45,15 @@ const PlanPage = () => {
       <FullDayMealPlan goalType={goalType} dailyCalories={dailyCalories} />
 
       {/* Diet Plan Overview */}
-      <DietPlanOverview
+      {/* <DietPlanOverview
         selectedDate={selectedDate}
         meals={meals}
         dailyCalories={dailyCalories}
         goalType={goalType}
-      />
+      /> */}
 
       {/* Meal Logging */}
-      <MealLogging addMeal={addMeal} />
+      {/* <MealLogging addMeal={addMeal} /> */}
 
       {/* Bottom Navigation */}
       <BottomNavbar />

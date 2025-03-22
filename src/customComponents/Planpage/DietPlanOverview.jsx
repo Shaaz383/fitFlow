@@ -45,9 +45,11 @@ const DietPlanOverview = ({ selectedDate, meals, dailyCalories, goalType = "weig
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-6 flex items-center space-x-2">
-        <FaUtensils className="text-yellow-500" />
-        <span>Diet Plan for {selectedDate.toLocaleDateString()}</span>
+      <h2 className="text-2xl font-bold mb-2 flex items-center space-x-2">
+        {/* <FaUtensils className="text-yellow-500" /> */}
+        {/* <span>Diet Plan for {selectedDate.toLocaleDateString()}</span> */}
+        {/* <span>Diet Plan for Today</span> */}
+        
       </h2>
 
       {/* Progress Bar */}
