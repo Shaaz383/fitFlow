@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaSearch, FaUtensils } from "react-icons/fa";
+import { FaSearch, FaUtensils, FaTrash } from "react-icons/fa";
 import BottomNavbar from "../customComponents/BottomNavbar";
 import logoDark from "../assets/logoDark.png";
 import FoodCard from "@/customComponents/Searchpage/FoodCard";
@@ -46,7 +46,25 @@ const SearchPage = () => {
     // Show toast notification when meal is added
     toast.success(`${food.name} added to meal!`, {
       position: "top-right",
-      autoClose: 2000, // Auto close after 2 seconds
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark",
+    });
+  };
+
+  // Function to remove a meal with notification
+  const removeMeal = (mealIndex) => {
+    const removedMeal = selectedMeals[mealIndex];
+    const updatedMeals = selectedMeals.filter((_, index) => index !== mealIndex);
+    setSelectedMeals(updatedMeals);
+
+    // Show toast notification when meal is removed
+    toast.error(`${removedMeal.name} removed from meal!`, {
+      position: "top-right",
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -148,7 +166,15 @@ const SearchPage = () => {
                   className="flex justify-between items-center bg-gray-700 px-3 py-2 rounded-lg mb-2"
                 >
                   <span>{meal.name}</span>
-                  <span className="text-yellow-400">{meal.calories} kcal</span>
+                  <div className="flex items-center">
+                    <span className="text-yellow-400 mr-2">{meal.calories} kcal</span>
+                    <button
+                      className="bg-red-500 hover:bg-red-400 text-white px-2 py-1 rounded-md text-sm"
+                      onClick={() => removeMeal(index)}
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>
