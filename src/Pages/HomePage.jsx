@@ -37,7 +37,7 @@ const HomePage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [meals, setMeals] = useState([]);
   const [dailyCalories, setDailyCalories] = useState(2000);
-  const goalType = "weight_loss";
+  const goalType = "Weight Loss";
 
   // 🟢 Function to Add Meal
   const addMeal = (meal) => {
