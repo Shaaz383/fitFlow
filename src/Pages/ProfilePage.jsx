@@ -1,23 +1,33 @@
 import { useState } from "react";
-import { FaUserEdit, FaCrown, FaMedal, FaDumbbell, FaTint, FaFire } from "react-icons/fa";
+import { FaUserEdit, FaCrown, FaDumbbell, FaTint, FaFire } from "react-icons/fa";
 import BottomNavbar from "@/customComponents/BottomNavbar";
 import EditProfileModal from "@/customComponents/Profilepage/EditProfileModal";
 import EditPreferencesModal from "@/customComponents/Profilepage/EditPreferencesModal";
+import { useAuth } from "@/context/AuthContext";
 
-const dietaryOptions = [
-  "Balanced" , "Vegetarian", "Vegan",  "Dairy-Free"
-];
+const dietaryOptions = ["Balanced", "Vegetarian", "Vegan", "Dairy-Free"];
 
 const ProfilePage = () => {
-  const [name, setName] = useState("John Doe");
-  const [email, setEmail] = useState("john.doe@example.com");
-  const [age, setAge] = useState(25);
-  const [gender, setGender] = useState("Male");
-  const [height, setHeight] = useState(175);
-  const [bmi, setBmi] = useState(24.5);
-  const [hydration, setHydration] = useState(2.5);
-  const [activityLevel, setActivityLevel] = useState("Moderately Active");
-  const [preferences, setPreferences] = useState(["Vegan", "No Sugar", "High Protein"]);
+  const { currentUser } = useAuth(); // Get current user from AuthContext
+
+  // If `currentUser` is not available, show a loading message or return null
+  if (!currentUser) {
+    return <p className="text-center text-gray-400 mt-10">Loading...</p>;
+  }
+
+  // Destructure user details from `currentUser`
+  const {
+    name = "Guest User",
+    email = "Not Available",
+    age = "N/A",
+    gender = "N/A",
+    height = "N/A",
+    bmi = "N/A",
+    hydration = "N/A",
+    activityLevel = "N/A",
+    preferences = [],
+  } = currentUser;
+
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [isPreferenceEditing, setIsPreferenceEditing] = useState(false);
 
@@ -59,55 +69,41 @@ const ProfilePage = () => {
 
       {/* Health Overview */}
       <div className="p-4 grid grid-cols-2 gap-4">
-        {/* Height */}
         <div className="bg-gray-900 p-4 rounded-lg shadow-md">
           <p className="text-sm text-gray-400">Height</p>
           <h3 className="text-lg font-semibold">{height} cm</h3>
         </div>
 
-        {/* Age */}
         <div className="bg-gray-900 p-4 rounded-lg shadow-md">
           <p className="text-sm text-gray-400">Age</p>
           <h3 className="text-lg font-semibold">{age}</h3>
         </div>
 
-        {/* Gender */}
         <div className="bg-gray-900 p-4 rounded-lg shadow-md">
           <p className="text-sm text-gray-400">Gender</p>
           <h3 className="text-lg font-semibold">{gender}</h3>
         </div>
 
-        {/* Activity Level */}
         <div className="bg-gray-900 p-4 rounded-lg shadow-md">
           <p className="text-sm text-gray-400">Activity Level</p>
           <h3 className="text-lg font-semibold">{activityLevel}</h3>
         </div>
 
-        {/* BMI */}
-        <div className="bg-gray-900 p-4 rounded-lg shadow-md">
-          <p className="text-sm text-gray-400">BMI</p>
-          <h3 className="text-lg font-semibold">{bmi}</h3>
-        </div>
-
-        {/* Hydration Progress */}
-        {/* <div className="bg-gray-900 p-4 rounded-lg shadow-md">
-          <p className="text-sm text-gray-400">Hydration</p>
-          <h3 className="text-lg font-semibold">{hydration}L</h3>
-          <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
-            <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${hydration / 4 * 100}%` }}></div>
-          </div>
-        </div> */}
       </div>
 
       {/* Dietary Preferences */}
       <div className="p-4">
         <h3 className="text-lg font-semibold">Dietary Preferences</h3>
         <div className="flex flex-wrap gap-2 mt-2">
-          {preferences.map((pref) => (
-            <span key={pref} className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
-              {pref}
-            </span>
-          ))}
+          {preferences.length > 0 ? (
+            preferences.map((pref) => (
+              <span key={pref} className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
+                {pref}
+              </span>
+            ))
+          ) : (
+            <p className="text-gray-400 text-sm">No preferences set</p>
+          )}
         </div>
         <button
           onClick={() => setIsPreferenceEditing(true)}
@@ -130,17 +126,11 @@ const ProfilePage = () => {
       {isEditingProfile && (
         <EditProfileModal
           name={name}
-          setName={setName}
           email={email}
-          setEmail={setEmail}
           age={age}
-          setAge={setAge}
           gender={gender}
-          setGender={setGender}
           height={height}
-          setHeight={setHeight}
           activityLevel={activityLevel}
-          setActivityLevel={setActivityLevel}
           setIsEditingProfile={setIsEditingProfile}
         />
       )}

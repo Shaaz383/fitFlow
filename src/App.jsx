@@ -1,15 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Signin from "./Pages/Signin";
-import Signup from "./Pages/Signup";
-import LandingPage from "./Pages/LandingPage";
-import GoalSelection from "./Pages/GoalSelection";
-import ActivityLevel from "./Pages/ActivityLevel";
-import CustomizeGoal from "./Pages/CustomizeGoal";
-import PlanPage from "./Pages/PlanPage";
-import ProgressPage from "./Pages/ProgressPage";
-import HomePage from "./Pages/Homepage";
-import ProfilePage from "./Pages/ProfilePage";
-import SearchPage from "./Pages/SearchPage";
+import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
+import LandingPage from "./pages/LandingPage";
+import GoalSelection from "./pages/GoalSelection";
+import ActivityLevel from "./pages/ActivityLevel";
+import CustomizeGoal from "./pages/CustomizeGoal";
+import PlanPage from "./pages/PlanPage";
+import ProgressPage from "./pages/ProgressPage";
+import HomePage from "./pages/Homepage";
+import ProfilePage from "./pages/ProfilePage";
+import SearchPage from "./pages/SearchPage";
 
 
 function App() {
