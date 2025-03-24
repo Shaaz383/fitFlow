@@ -57,7 +57,7 @@ export default function Signup() {
             onChange={handleChange}
             placeholder="Full name "
           />
-          {/* <label className="absolute left-4 top-3 text-gray-400 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500">Full Name</label> */}
+        
         </div>
 
         {/* Email */}
@@ -70,7 +70,7 @@ export default function Signup() {
             onChange={handleChange}
             placeholder="Email "
           />
-          {/* <label className="absolute left-4 top-3 text-gray-400 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500">Email</label> */}
+      
         </div>
 
         {/* Password */}
@@ -83,9 +83,7 @@ export default function Signup() {
             onChange={handleChange}
             placeholder=" Password"
           />
-          {/* <label className="absolute left-4 top-3 text-gray-400 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500">
-            Password
-          </label> */}
+    
         </div>
 
         {/* Age & Gender */}
