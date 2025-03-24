@@ -5,7 +5,7 @@ import EditProfileModal from "@/customComponents/Profilepage/EditProfileModal";
 import EditPreferencesModal from "@/customComponents/Profilepage/EditPreferencesModal";
 
 const dietaryOptions = [
-  "Vegetarian", "Vegan", "High Protein", "Low Carb", "No Sugar", "Keto", "Paleo", "Gluten-Free", "Dairy-Free"
+  "Balanced" , "Vegetarian", "Vegan",  "Dairy-Free"
 ];
 
 const ProfilePage = () => {

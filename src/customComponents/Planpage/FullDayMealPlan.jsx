@@ -35,38 +35,49 @@ const FullDayMealPlan = () => {
           Full-Day Meal Plan
         </h2>
 
-        <div className="space-y-4 ">
-          {mealTimes.map(({ key, time, label, icon, color }) => (
-            <div key={key} className="bg-gray-700 px-4 py-3 rounded-lg shadow-md flex flex-col gap-2 sm:flex-row sm:justify-between items-start sm:items-center">
+        <div className="space-y-4">
+          {mealTimes.map(({ key, time, label, icon, color }) => {
+            const { meal, kcal, protein, carbs, fats } = mealPlan[key];
 
-            
-              {/* Left Side: Meal Label & Time */}
-              <div className="flex items-center space-x-3">
-                <span className={`px-3 py-1 rounded-full text-white text-xs font-semibold ${color}`}>
-                  {time}
-                </span>
-                <span className="text-yellow-400 text-lg">{icon}</span>
-                <h3 className="text-white font-semibold">{label}</h3>
-              </div>
-
-              {/* Middle Section: Meal Items in Badges */}
-              <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
-                {mealPlan[key].meal.split(" + ").map((item, index) => (
-                  <span key={index} className="bg-gray-600 text-white text-xs font-medium px-3 py-1 rounded-full">
-                    {item}
+            return (
+              <div key={key} className="bg-gray-700 px-4 py-3 rounded-lg shadow-md flex flex-col gap-2 sm:flex-row sm:justify-between items-start sm:items-center">
+                
+                {/* Left Side: Meal Label & Time */}
+                <div className="flex items-center space-x-3">
+                  <span className={`px-3 py-1 rounded-full text-white text-xs font-semibold ${color}`}>
+                    {time}
                   </span>
-                ))}
-              </div>
+                  <span className="text-yellow-400 text-lg">{icon}</span>
+                  <h3 className="text-white font-semibold">{label}</h3>
+                </div>
 
+                {/* Middle Section: Meal Items in Badges */}
+                <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
+                  {meal.split(" + ").map((item, index) => (
+                    <span key={index} className="bg-gray-600 text-white text-xs font-medium px-3 py-1 rounded-full">
+                      {item}
+                    </span>
+                  ))}
+                </div>
 
-              {/* Right Side: Calories Badge */}
-              <div className="text-right mt-2 sm:mt-0 ">
-                <span className="bg-gray-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                  {mealPlan[key].kcal} kcal
-                </span>
+                {/* Right Side: Macronutrients */}
+                <div className="flex flex-wrap gap-4 mt-2 sm:mt-0 ">
+                  <span className=" text-green-500  rounded-full text-[10px] font-semibold">
+                    {kcal} kcal
+                  </span>
+                  <span className=" text-blue-500  rounded-full text-[10px] font-semibold">
+                    {protein}g Protein
+                  </span>
+                  <span className=" text-yellow-400 rounded-full text-[10px] font-semibold">
+                    {carbs}g Carbs
+                  </span>
+                  <span className=" text-white px-2  rounded-full text-[10px] font-semibold">
+                    {fats}g Fats
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Generate Other Button */}

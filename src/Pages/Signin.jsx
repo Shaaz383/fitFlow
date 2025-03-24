@@ -3,7 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logoDark.png";
 import Users from "@/data/userData";
-import { useAuth } from "@/context/AuthContext"; // Import useAuth hook
+import { useAuth } from "@/context/AuthContext";
+
+const dietaryOptions = [
+  "Balanced", "Vegetarian", "Vegan", "Dairy-Free"
+];
 
 export default function Signin() {
   const [formData, setFormData] = useState({
@@ -13,7 +17,7 @@ export default function Signin() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth(); // Get login function from AuthContext
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +34,6 @@ export default function Signin() {
     setError("");
 
     try {
-      // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 500));
       
       const user = Users.find(
@@ -39,8 +42,25 @@ export default function Signin() {
       );
 
       if (user) {
-        login(user); // Use AuthContext login
-        navigate("/"); // Redirect to home
+        // Ensure user has all required fields with defaults
+        const completeUser = {
+          name: user.name || "User",
+          email: user.email,
+          password: user.password,
+          age: user.age || 25,
+          gender: user.gender || "Male",
+          height: user.height || 170,
+          weight: user.weight || 70,
+          activityLevel: user.activityLevel || "Moderately Active",
+          dietPreference: dietaryOptions.includes(user.dietPreference) 
+            ? user.dietPreference 
+            : "Balanced",
+          goal: user.goal || "Maintain Weight",
+          goalWeight: user.goalWeight || null
+        };
+        
+        login(completeUser);
+        navigate("/");
       } else {
         setError("Invalid email or password");
       }
