@@ -2,9 +2,9 @@ import { PieChart, Pie, Tooltip, Legend, Cell, ResponsiveContainer } from "recha
 
 const MacroBreakdownChart = ({ data }) => {
   return (
-    <div className="p-4">
-      <h3 className="text-lg font-semibold text-white">Macronutrient Breakdown</h3>
-      <div className="bg-gray-900 p-4 rounded-xl">
+    <div className="p-2">
+      <h3 className="text-lg font-semibold text-white mb-2">Macronutrient Breakdown</h3>
+      <div className="bg-gray-900 p-2 rounded-xl">
         <ResponsiveContainer width="100%" height={250}>
           <PieChart>
             <Tooltip />
