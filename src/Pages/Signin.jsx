@@ -31,18 +31,18 @@ export default function Signin() {
 
         {/* Email */}
         <div className="relative">
-          <input type="email" name="email" required className="w-full p-4 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500 peer" onChange={handleChange} placeholder=" " />
-          <label className="absolute left-4 top-4 text-gray-400 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500">
+          <input type="email" name="email" required className="w-full p-4 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500 peer" onChange={handleChange} placeholder="Email " />
+          {/* <label className="absolute left-4 top-4 text-gray-400 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500">
             Email
-          </label>
+          </label> */}
         </div>
 
         {/* Password */}
         <div className="relative">
-          <input type="password" name="password" required className="w-full p-4 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500 peer" onChange={handleChange} placeholder=" " />
-          <label className="absolute left-4 top-4 text-gray-400 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500">
+          <input type="password" name="password" required className="w-full p-4 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500 peer" onChange={handleChange} placeholder="Password " />
+          {/* <label className="absolute left-4 top-4 text-gray-400 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500">
             Password
-          </label>
+          </label> */}
         </div>
 
         {/* Forgot Password */}

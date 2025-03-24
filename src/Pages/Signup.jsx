@@ -43,29 +43,66 @@ export default function Signup() {
       <h2 className="text-4xl font-extrabold mb-4">Create Account</h2>
 
       {/* Form */}
-      <form className="w-full max-w-lg bg-gray-900 p-2 rounded-2xl shadow-xl flex flex-col gap-6" onSubmit={handleSubmit}>
+      <form
+        className="w-full max-w-lg bg-gray-900 p-2 rounded-2xl shadow-xl flex flex-col gap-6"
+        onSubmit={handleSubmit}
+      >
         {/* Name */}
         <div className="relative">
-          <input type="text" name="name" required className="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500" onChange={handleChange} placeholder=" " />
-          <label className="absolute left-4 top-3 text-gray-400 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500">Full Name</label>
+          <input
+            type="text"
+            name="name"
+            required
+            className="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500 "
+            onChange={handleChange}
+            placeholder="Full name "
+          />
+          {/* <label className="absolute left-4 top-3 text-gray-400 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500">Full Name</label> */}
         </div>
 
         {/* Email */}
         <div className="relative">
-          <input type="email" name="email" required className="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500" onChange={handleChange} placeholder=" " />
-          <label className="absolute left-4 top-3 text-gray-400 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500">Email</label>
+          <input
+            type="email"
+            name="email"
+            required
+            className="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500"
+            onChange={handleChange}
+            placeholder="Email "
+          />
+          {/* <label className="absolute left-4 top-3 text-gray-400 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500">Email</label> */}
         </div>
 
         {/* Password */}
         <div className="relative">
-          <input type="password" name="password" required className="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500" onChange={handleChange} placeholder=" " />
-          <label className="absolute left-4 top-3 text-gray-400 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500">Password</label>
+          <input
+            type="password"
+            name="password"
+            required
+            className="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500"
+            onChange={handleChange}
+            placeholder=" Password"
+          />
+          {/* <label className="absolute left-4 top-3 text-gray-400 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500">
+            Password
+          </label> */}
         </div>
 
         {/* Age & Gender */}
         <div className="flex gap-4">
-          <input type="number" name="age" required className="w-1/2 p-3 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500" onChange={handleChange} placeholder="Age" />
-          <select name="gender" className="w-1/2 p-4 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500" onChange={handleChange}>
+          <input
+            type="number"
+            name="age"
+            required
+            className="w-1/2 p-3 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500"
+            onChange={handleChange}
+            placeholder="Age"
+          />
+          <select
+            name="gender"
+            className="w-1/2 p-4 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500"
+            onChange={handleChange}
+          >
             <option>Male</option>
             <option>Female</option>
             <option>Other</option>
@@ -74,16 +111,36 @@ export default function Signup() {
 
         {/* Height & Weight */}
         <div className="flex gap-4">
-          <input type="number" name="height" required className="w-1/2 p-3 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500" onChange={handleChange} placeholder="Height (cm)" />
-          <input type="number" name="weight" required className="w-1/2 p-3 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500" onChange={handleChange} placeholder="Weight (kg)" />
+          <input
+            type="number"
+            name="height"
+            required
+            className="w-1/2 p-3 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500"
+            onChange={handleChange}
+            placeholder="Height (cm)"
+          />
+          <input
+            type="number"
+            name="weight"
+            required
+            className="w-1/2 p-3 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500"
+            onChange={handleChange}
+            placeholder="Weight (kg)"
+          />
         </div>
 
         {/* Activity Level */}
         <div>
           <label className="text-gray-300 ">Activity Level</label>
-          <select name="activityLevel" className="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500" onChange={handleChange}>
+          <select
+            name="activityLevel"
+            className="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500"
+            onChange={handleChange}
+          >
             {levels.map((level) => (
-              <option key={level.id} value={level.title}>{level.title}</option>
+              <option key={level.id} value={level.title}>
+                {level.title}
+              </option>
             ))}
           </select>
         </div>
@@ -91,7 +148,11 @@ export default function Signup() {
         {/* Diet Preference */}
         <div>
           <label className="text-gray-300">Diet Preference</label>
-          <select name="dietPreference" className="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500" onChange={handleChange}>
+          <select
+            name="dietPreference"
+            className="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500"
+            onChange={handleChange}
+          >
             <option>Balanced</option>
             <option>Vegetarian</option>
             <option>Vegan</option>
@@ -101,15 +162,21 @@ export default function Signup() {
         </div>
 
         {/* Submit Button */}
-        <Button type="submit" className="w-full bg-yellow-500 text-black font-bold py-6 rounded-lg text-lg hover:bg-yellow-400 transition">
+        <Button
+          type="submit"
+          className="w-full bg-yellow-500 text-black font-bold py-6 rounded-lg text-lg hover:bg-yellow-400 transition"
+        >
           Sign Up
         </Button>
       </form>
 
       {/* Already have an account? */}
       <p className=" text-gray-400 text-sm">
-        Already have an account ? &nbsp; 
-        <Link to="/signin" className="text-white font-semibold cursor-pointer hover:underline">
+        Already have an account ? &nbsp;
+        <Link
+          to="/signin"
+          className="text-white font-semibold cursor-pointer hover:underline"
+        >
           Log In
         </Link>
       </p>
