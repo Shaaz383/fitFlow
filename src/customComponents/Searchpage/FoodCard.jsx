@@ -24,11 +24,21 @@ const FoodCard = ({ food, addToMeal }) => {
         </span>
       </div>
 
-      <h4 className="text-lg font-bold mb-1 line-clamp-1">{food.name}</h4>
+      <h4 className="text-lg font-bold mb-1 line-clamp-1 text-white">{food.name}</h4>
 
-      <div className="flex justify-between items-center mb-2">
+      {/* Macronutrient Badges */}
+      <div className="flex flex-wrap gap-2 mb-2">
         <span className="bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded-full text-xs font-bold">
           {food.calories} kcal
+        </span>
+        <span className="bg-blue-500/20 text-blue-400 px-2 py-1 rounded-full text-xs font-bold">
+          {food.protein}g Protein
+        </span>
+        <span className="bg-green-500/20 text-green-400 px-2 py-1 rounded-full text-xs font-bold">
+          {food.carbs}g Carbs
+        </span>
+        <span className="bg-red-500/20 text-red-400 px-2 py-1 rounded-full text-xs font-bold">
+          {food.fats}g Fats
         </span>
       </div>
 
