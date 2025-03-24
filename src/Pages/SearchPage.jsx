@@ -5,6 +5,8 @@ import logoDark from "../assets/logoDark.png";
 import FoodCard from "@/customComponents/Searchpage/FoodCard";
 import FoodFilter from "@/customComponents/Searchpage/FoodFilter";
 import foodResults from "@/data/searchData";
+import { ToastContainer, toast } from "react-toastify"; // Import Toastify
+import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
 
 const mealCategories = ["Breakfast", "Lunch", "Dinner", "Snacks"];
 
@@ -13,8 +15,8 @@ const SearchPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("Breakfast");
   const [filteredResults, setFilteredResults] = useState(foodResults);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedMeals, setSelectedMeals] = useState([]); // Stores added meals
-  const [showMealSummary, setShowMealSummary] = useState(false); // Toggle for meal summary modal
+  const [selectedMeals, setSelectedMeals] = useState([]);
+  const [showMealSummary, setShowMealSummary] = useState(false);
 
   const filterResults = () => {
     const updatedResults = {};
@@ -37,9 +39,20 @@ const SearchPage = () => {
     }
   };
 
-  // Function to add meals to the selected list
+  // Function to add meals with notification
   const addToMeal = (food) => {
     setSelectedMeals([...selectedMeals, food]);
+
+    // Show toast notification when meal is added
+    toast.success(`${food.name} added to meal!`, {
+      position: "top-right",
+      autoClose: 2000, // Auto close after 2 seconds
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark",
+    });
   };
 
   // Function to calculate total calories
@@ -50,6 +63,8 @@ const SearchPage = () => {
 
   return (
     <div className="bg-gray-900 text-white min-h-screen pb-20 p-4">
+      <ToastContainer /> {/* Toast notification container */}
+
       {/* Header Section */}
       <div className="flex items-center justify-between mb-6">
         <img src={logoDark} alt="Logo" className="h-16 w-auto filter invert" />
