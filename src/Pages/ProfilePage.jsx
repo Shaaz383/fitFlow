@@ -26,7 +26,7 @@ const ProfilePage = () => {
   const [age, setAge] = useState(25);
   const [gender, setGender] = useState("Male");
   const [height, setHeight] = useState(175);
-  const [weight, setWeight] = useState("78.5 kg");
+  // const [weight, setWeight] = useState("78.5 kg");
   const [bmi] = useState("24.5");
   const [hydration, setHydration] = useState(2.5);
   const [activityLevel, setActivityLevel] = useState("Moderately Active");
@@ -44,8 +44,8 @@ const ProfilePage = () => {
           setIsEditingProfile={setIsEditingProfile}
         />
         <HealthOverview
-          weight={weight}
-          setIsEditingWeight={setIsEditingWeight}
+          // weight={weight}
+          // setIsEditingWeight={setIsEditingWeight}
           bmi={bmi}
           hydration={hydration}
           setHydration={setHydration}
