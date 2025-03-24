@@ -8,10 +8,11 @@ import BottomNavbar from "../customComponents/BottomNavbar";
 import BMICalculator from "../customComponents/Homepage/BMICalculator";
 import DietPlanOverview from "../customComponents/Planpage/DietPlanOverview";
 import { WeightContext } from "../context/WeightContext";
+import { useAuth } from "../context/AuthContext"; // Import useAuth
 import MealLogging from "@/customComponents/Planpage/MealLogging";
 
 const HomePage = () => {
-  const userName = "John"; // Replace with dynamic value
+  const { currentUser } = useAuth(); // Get current user from AuthContext
   const { currentWeight, setCurrentWeight } = useContext(WeightContext);
 
   // 🟢 Quick Stats Data (Dynamic)
@@ -24,10 +25,10 @@ const HomePage = () => {
   // 🟢 Function to Update Stats
   const updateStat = (title, newValue) => {
     if (title === "Weight") {
-      setCurrentWeight(parseFloat(newValue)); // Update context state
+      setCurrentWeight(parseFloat(newValue));
     }
-    setStats((prevStats) =>
-      prevStats.map((stat) =>
+    setStats(prevStats =>
+      prevStats.map(stat =>
         stat.title === title ? { ...stat, value: newValue } : stat
       )
     );
@@ -42,7 +43,7 @@ const HomePage = () => {
   // 🟢 Function to Add Meal
   const addMeal = (meal) => {
     setMeals([...meals, meal]);
-    setDailyCalories((prev) => prev + meal.calories); // Update daily calorie count
+    setDailyCalories(prev => prev + meal.calories);
   };
 
   // 🟢 Personalized Plans Data
@@ -57,10 +58,10 @@ const HomePage = () => {
   return (
     <div className="bg-gray-900 text-white min-h-screen pb-20 relative">
       {/* Header */}
-      <Header userName={userName} />
+      <Header userName={currentUser?.name || "User"} /> {/* Use currentUser.name */}
 
       {/* Hero Section */}
-      <HeroSection userName={userName} />
+      <HeroSection userName={currentUser?.name || "User"} /> {/* Use currentUser.name */}
 
       {/* Quick Stats Section */}
       <div className="p-4">
@@ -80,20 +81,13 @@ const HomePage = () => {
           </button>
         </div>
 
-     
         <DietPlanOverview
           selectedDate={selectedDate}
           meals={meals}
           dailyCalories={dailyCalories}
           goalType={goalType}
         />
-
-        
       </section>
-
-     
-
-      
 
       {/* Meal Logging Popup */}
       {isMealPopupOpen && (
