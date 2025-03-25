@@ -1,10 +1,29 @@
-import { WeightContext } from "@/context/WeightContext";
 import { useContext } from "react";
+import { WeightContext } from "@/context/WeightContext";
+import { useAuth } from "@/context/AuthContext";
 import { FaWeight, FaBullseye, FaFire } from "react-icons/fa";
 
-
 const GoalCard = () => {
-  const { currentWeight, goalWeight, goalType } = useContext(WeightContext); // Use WeightContext
+  const { currentUser } = useAuth();
+  const { 
+    currentWeight = currentUser?.stats?.weight || 0,
+    goalWeight = currentUser?.stats?.goalWeight || 0,
+    goalType = currentUser?.stats?.goalType || "weight_loss"
+  } = useContext(WeightContext);
+
+  // Format goal type for display
+  const formattedGoalType = goalType === "weight_loss" 
+    ? "Weight Loss" 
+    : goalType === "gain_muscle" 
+      ? "Muscle Building" 
+      : goalType;
+
+  // Determine color based on goal type
+  const goalTypeColor = goalType === "weight_loss" 
+    ? "bg-red-500" 
+    : goalType === "gain_muscle" 
+      ? "bg-blue-500" 
+      : "bg-purple-500";
 
   return (
     <div className="p-4">
@@ -39,14 +58,8 @@ const GoalCard = () => {
               <FaFire className="text-yellow-400 text-lg" />
               <p className="text-gray-300">Goal Type:</p>
             </div>
-            <span
-              className={`px-3 py-1 rounded-full font-semibold ${
-                goalType === "weight_loss"
-                  ? "bg-red-500 text-white"
-                  : "bg-blue-500 text-white"
-              }`}
-            >
-              {goalType === "weight_loss" ? "Weight Loss" : "Muscle Building"}
+            <span className={`${goalTypeColor} text-white px-3 py-1 rounded-full font-semibold`}>
+              {formattedGoalType}
             </span>
           </div>
         </div>
