@@ -7,7 +7,7 @@ const foodResults = {
       protein: 5,
       carbs: 45,
       fats: 8,
-      image: "https://www.vegrecipesofindia.com/wp-content/uploads/2021/04/poha-recipe-1.jpg"
+      image: "https://palatesdesire.com/wp-content/uploads/2022/07/Vegetable-diet-poha-recipe@palates-desire.jpg"
     },
     {
       name: "Egg Bhurji",
@@ -16,7 +16,7 @@ const foodResults = {
       protein: 15,
       carbs: 5,
       fats: 20,
-      image: "https://www.whiskaffair.com/wp-content/uploads/2020/07/Anda-Bhurji-2-3.jpg"
+      image: "https://www.maggi.in/sites/default/files/srh_recipes/516aa594dfdf9292ade96480f693e3be.jpg"
     },
     {
       name: "Oats Porridge",
@@ -25,7 +25,7 @@ const foodResults = {
       protein: 8,
       carbs: 35,
       fats: 5,
-      image: "https://www.indianhealthyrecipes.com/wp-content/uploads/2021/06/oats-porridge-recipe.jpg"
+      image: "https://klaraslife.com/wp-content/uploads/2017/10/DSC06761-1-scaled.jpg"
     },
     {
       name: "Chicken Sandwich",
