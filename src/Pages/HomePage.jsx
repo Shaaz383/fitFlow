@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { FaWeight, FaWalking, FaTint, FaDumbbell, FaUtensils, FaPlus } from "react-icons/fa";
 import Header from "../customComponents/Header";
 import HeroSection from "../customComponents/Homepage/HeroSection";
@@ -8,12 +8,14 @@ import BottomNavbar from "../customComponents/BottomNavbar";
 import BMICalculator from "../customComponents/Homepage/BMICalculator";
 import DietPlanOverview from "../customComponents/Planpage/DietPlanOverview";
 import { WeightContext } from "../context/WeightContext";
-import { useAuth } from "../context/AuthContext"; // Import useAuth
+import { useAuth } from "../context/AuthContext";
 import MealLogging from "@/customComponents/Planpage/MealLogging";
 
 const HomePage = () => {
-  const { currentUser } = useAuth(); // Get current user from AuthContext
+  const { currentUser, addMeal } = useAuth();
   const { currentWeight, setCurrentWeight } = useContext(WeightContext);
+  const [isMealPopupOpen, setMealPopupOpen] = useState(false);
+  const [selectedDate] = useState(new Date());
 
   // 🟢 Quick Stats Data (Dynamic)
   const [stats, setStats] = useState([
@@ -34,16 +36,10 @@ const HomePage = () => {
     );
   };
 
-  // 🟢 State for Diet Plan Overview
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [meals, setMeals] = useState([]);
-  const [dailyCalories, setDailyCalories] = useState(2000);
-  const goalType = "Weight Loss";
-
-  // 🟢 Function to Add Meal
-  const addMeal = (meal) => {
-    setMeals([...meals, meal]);
-    setDailyCalories(prev => prev + meal.calories);
+  // 🟢 Handle meal addition
+  const handleAddMeal = async (meal) => {
+    await addMeal(meal);
+    setMealPopupOpen(false);
   };
 
   // 🟢 Personalized Plans Data
@@ -52,16 +48,13 @@ const HomePage = () => {
     { icon: <FaUtensils className="text-green-400 text-4xl" />, title: "Diet Plan", description: "Balanced meals made easy." },
   ];
 
-  // 🟢 State for Meal Logging Popup
-  const [isMealPopupOpen, setMealPopupOpen] = useState(false);
-
   return (
     <div className="bg-gray-900 text-white min-h-screen pb-20 relative">
       {/* Header */}
-      <Header userName={currentUser?.name || "User"} /> {/* Use currentUser.name */}
+      <Header userName={currentUser?.name || "User"} />
 
       {/* Hero Section */}
-      <HeroSection userName={currentUser?.name || "User"} /> {/* Use currentUser.name */}
+      <HeroSection userName={currentUser?.name || "User"} />
 
       {/* Quick Stats Section */}
       <div className="p-4">
@@ -83,9 +76,9 @@ const HomePage = () => {
 
         <DietPlanOverview
           selectedDate={selectedDate}
-          meals={meals}
-          dailyCalories={dailyCalories}
-          goalType={goalType}
+          meals={currentUser?.meals || []}
+          dailyCalories={currentUser?.dailyCalories || 2000}
+          goalType={currentUser?.stats?.goalType || "weight_loss"}
         />
       </section>
 
@@ -93,7 +86,7 @@ const HomePage = () => {
       {isMealPopupOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-70 z-50">
           <div className="bg-gray-800 p-6 rounded-lg w-96">
-            <MealLogging addMeal={addMeal} onClose={() => setMealPopupOpen(false)} />
+            <MealLogging addMeal={handleAddMeal} onClose={() => setMealPopupOpen(false)} />
           </div>
         </div>
       )}
