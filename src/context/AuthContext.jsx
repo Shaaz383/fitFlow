@@ -3,6 +3,36 @@ import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
+// Helper function to calculate daily calories based on weight and goal
+const calculateDailyCalories = (currentWeight, goalWeight, gender, activityLevel = 'sedentary', height = 170, age = 30) => {
+  // Base metabolic rate (BMR) calculation using Mifflin-St Jeor Equation
+  let bmr;
+  if (gender === 'Female') {
+    bmr = 10 * currentWeight + 6.25 * height - 5 * age - 161;
+  } else { // Male or other
+    bmr = 10 * currentWeight + 6.25 * height - 5 * age + 5;
+  }
+  
+  // Activity level multipliers
+  const activityMultipliers = {
+    sedentary: 1.2,
+    lightly_active: 1.375,
+    moderately_active: 1.55,
+    very_active: 1.725,
+    athlete: 1.9
+  };
+  
+  const tdee = bmr * (activityMultipliers[activityLevel.toLowerCase()] || 1.2);
+  
+  // Adjust based on goal
+  if (goalWeight < currentWeight) {
+    return Math.round(tdee * 0.85); // 15% deficit for weight loss
+  } else if (goalWeight > currentWeight) {
+    return Math.round(tdee * 1.15); // 15% surplus for muscle gain
+  }
+  return Math.round(tdee); // Maintenance
+};
+
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,19 +67,29 @@ export function AuthProvider({ children }) {
         throw new Error("User already exists");
       }
       
+      const goalWeight = userData.goal === "Lose Weight" ? Number(userData.weight) - 5 : 
+                       userData.goal === "Gain Muscle" ? Number(userData.weight) + 5 : 
+                       Number(userData.weight);
+      
       const newUser = {
         ...userData,
         stats: {
           weight: Number(userData.weight),
+          goalWeight: goalWeight,
           steps: 0,
           water: 0,
-          goalWeight: userData.goal === "Lose Weight" ? Number(userData.weight) - 5 : 
-                     userData.goal === "Gain Muscle" ? Number(userData.weight) + 5 : Number(userData.weight),
           goalType: userData.goal,
           lastUpdated: new Date().toISOString()
         },
         meals: [],
-        dailyCalories: 2000,
+        dailyCalories: calculateDailyCalories(
+          Number(userData.weight),
+          goalWeight,
+          userData.gender,
+          userData.activityLevel,
+          Number(userData.height),
+          Number(userData.age)
+        ),
         preferences: []
       };
       
@@ -93,7 +133,15 @@ export function AuthProvider({ children }) {
           ...currentUser.stats,
           ...updatedStats,
           lastUpdated: new Date().toISOString()
-        }
+        },
+        dailyCalories: calculateDailyCalories(
+          updatedStats.weight || currentUser.stats.weight,
+          updatedStats.goalWeight || currentUser.stats.goalWeight,
+          currentUser.gender,
+          currentUser.activityLevel,
+          currentUser.height,
+          currentUser.age
+        )
       };
       return updateUserData(updatedUser);
     } catch (error) {
@@ -105,8 +153,7 @@ export function AuthProvider({ children }) {
     try {
       const updatedUser = {
         ...currentUser,
-        meals: [...currentUser.meals, meal],
-        dailyCalories: currentUser.dailyCalories || 2000
+        meals: [...currentUser.meals, meal]
       };
       return updateUserData(updatedUser);
     } catch (error) {
@@ -123,7 +170,15 @@ export function AuthProvider({ children }) {
           ...currentUser.stats,
           weight: updatedProfile.weight || currentUser.stats.weight,
           lastUpdated: new Date().toISOString()
-        }
+        },
+        dailyCalories: calculateDailyCalories(
+          updatedProfile.weight || currentUser.stats.weight,
+          currentUser.stats.goalWeight,
+          updatedProfile.gender || currentUser.gender,
+          updatedProfile.activityLevel || currentUser.activityLevel,
+          updatedProfile.height || currentUser.height,
+          updatedProfile.age || currentUser.age
+        )
       };
       return updateUserData(updatedUser);
     } catch (error) {

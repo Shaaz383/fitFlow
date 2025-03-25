@@ -77,7 +77,7 @@ const HomePage = () => {
         <DietPlanOverview
           selectedDate={selectedDate}
           meals={currentUser?.meals || []}
-          dailyCalories={currentUser?.dailyCalories || 2000}
+          dailyCalories={currentUser?.dailyCalories || 2000 }
           goalType={currentUser?.stats?.goalType || "weight_loss"}
         />
       </section>
