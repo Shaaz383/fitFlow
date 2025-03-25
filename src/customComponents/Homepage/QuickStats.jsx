@@ -1,23 +1,20 @@
 // src/components/QuickStats.js
 import { useState, useContext } from "react";
 import { WeightContext } from "@/context/WeightContext";
+import { useAuth } from "@/context/AuthContext";
 import WeightGoalInput from "../Planpage/WeightGoalInput";
 import StatCard from "./QuickStats/StatCard";
 import StepsModal from "./Quickstats/StepsModal";
-import WeightModal from "./Quickstats/WeightModal";
 import GoalCard from "./Quickstats/GoalModal";
-
 
 const QuickStats = ({ stats, updateStat }) => {
   const [isGoalModalOpen, setIsGoalModalOpen] = useState(false);
   const [isStepsModalOpen, setIsStepsModalOpen] = useState(false);
-  const [isWeightModalOpen, setIsWeightModalOpen] = useState(false);
   const [newSteps, setNewSteps] = useState("");
-  const [newWeight, setNewWeight] = useState("");
 
+  const { currentUser, updateUserStats } = useAuth();
   const {
     currentWeight,
-    setCurrentWeight,
     goalWeight,
     setGoalWeight,
     goalType,
@@ -27,38 +24,41 @@ const QuickStats = ({ stats, updateStat }) => {
   const handleUpdateSteps = () => {
     if (newSteps.trim() !== "") {
       updateStat("Steps Today", `${newSteps} Steps`);
+      updateUserStats({ steps: parseInt(newSteps) });
       setNewSteps("");
       setIsStepsModalOpen(false);
     }
   };
 
-  const handleUpdateWeight = () => {
-    if (newWeight.trim() !== "") {
-      setCurrentWeight(newWeight);
-      updateStat("Weight", `${newWeight} kg`);
-      setNewWeight("");
-      setIsWeightModalOpen(false);
-    }
-  };
-
-  const handleIncreaseWater = () => {
+  const handleIncreaseWater = async () => {
     const waterStat = stats.find((stat) => stat.title === "Water");
     if (waterStat) {
       const currentWater = parseFloat(waterStat.value);
       const newWater = (currentWater + 0.25).toFixed(2);
       updateStat("Water", `${newWater} L`);
+      await updateUserStats({ water: parseFloat(newWater) });
     }
   };
 
+  // Create stats array with current weight from localStorage
+  const updatedStats = stats.map(stat => {
+    if (stat.title === "Weight") {
+      return {
+        ...stat,
+        value: `${currentUser?.stats?.weight || currentWeight || 0} kg`
+      };
+    }
+    return stat;
+  });
+
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-      {stats.map((stat, index) => (
+      {updatedStats.map((stat, index) => (
         <StatCard
           key={index}
           stat={stat}
           onIncreaseWater={handleIncreaseWater}
           onOpenStepsModal={() => setIsStepsModalOpen(true)}
-          onOpenWeightModal={() => setIsWeightModalOpen(true)}
         />
       ))}
 
@@ -70,20 +70,11 @@ const QuickStats = ({ stats, updateStat }) => {
         onUpdate={handleUpdateSteps}
       />
 
-      <WeightModal
-        isOpen={isWeightModalOpen}
-        onClose={() => setIsWeightModalOpen(false)}
-        weight={newWeight}
-        setWeight={setNewWeight}
-        onUpdate={handleUpdateWeight}
-      />
-
       {isGoalModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-gray-900 p-6 rounded-lg w-full max-w-md">
             <WeightGoalInput
               currentWeight={currentWeight}
-              setCurrentWeight={setCurrentWeight}
               goalWeight={goalWeight}
               setGoalWeight={setGoalWeight}
               goalType={goalType}
