@@ -1,13 +1,9 @@
+// src/pages/Signin.js
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logoDark.png";
-import Users from "@/data/userData";
 import { useAuth } from "@/context/AuthContext";
-
-const dietaryOptions = [
-  "Balanced", "Vegetarian", "Vegan", "Dairy-Free"
-];
 
 export default function Signin() {
   const [formData, setFormData] = useState({
@@ -36,30 +32,16 @@ export default function Signin() {
     try {
       await new Promise(resolve => setTimeout(resolve, 500));
       
-      const user = Users.find(
+      // Get users from localStorage
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      
+      const user = users.find(
         user => user.email === formData.email && 
                user.password === formData.password
       );
 
       if (user) {
-        // Ensure user has all required fields with defaults
-        const completeUser = {
-          name: user.name || "User",
-          email: user.email,
-          password: user.password,
-          age: user.age || 25,
-          gender: user.gender || "Male",
-          height: user.height || 170,
-          weight: user.weight || 70,
-          activityLevel: user.activityLevel || "Moderately Active",
-          dietPreference: dietaryOptions.includes(user.dietPreference) 
-            ? user.dietPreference 
-            : "Balanced",
-          goal: user.goal || "Maintain Weight",
-          goalWeight: user.goalWeight || null
-        };
-        
-        login(completeUser);
+        login(user);
         navigate("/");
       } else {
         setError("Invalid email or password");
@@ -74,25 +56,19 @@ export default function Signin() {
 
   return (
     <div className="bg-black min-h-screen flex flex-col items-center text-white px-6 py-4">
-      {/* Logo */}
       <img src={logo} alt="Logo" className="h-32 mb-2 filter invert" />
-
-      {/* Title */}
       <h2 className="text-4xl font-extrabold mb-8">Sign In</h2>
 
-      {/* Error Message */}
       {error && (
         <div className="w-full max-w-lg bg-red-500/20 text-red-400 p-3 rounded-lg mb-4 text-center animate-fade-in">
           {error}
         </div>
       )}
 
-      {/* Form */}
       <form 
         className="w-full max-w-lg bg-gray-900 p-4 rounded-2xl shadow-xl flex flex-col gap-6" 
         onSubmit={handleSubmit}
       >
-        {/* Email */}
         <div className="relative">
           <input 
             type="email" 
@@ -106,7 +82,6 @@ export default function Signin() {
           />
         </div>
 
-        {/* Password */}
         <div className="relative">
           <input 
             type="password" 
@@ -120,7 +95,6 @@ export default function Signin() {
           />
         </div>
 
-        {/* Forgot Password */}
         <Link 
           to="/forgot-password" 
           className="text-right text-sm text-yellow-500 hover:underline self-end"
@@ -128,7 +102,6 @@ export default function Signin() {
           Forgot password?
         </Link>
 
-        {/* Submit Button */}
         <Button 
           type="submit" 
           className="w-full bg-yellow-500 text-black font-bold py-6 rounded text-lg hover:bg-yellow-400 transition disabled:opacity-75"
@@ -146,7 +119,6 @@ export default function Signin() {
         </Button>
       </form>
 
-      {/* Don't have an account? */}
       <p className="text-gray-400 text-sm mt-4">
         Don't have an account? &nbsp; 
         <Link 

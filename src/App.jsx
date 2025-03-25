@@ -10,26 +10,66 @@ import ProgressPage from "./pages/ProgressPage";
 import HomePage from "./pages/Homepage";
 import ProfilePage from "./pages/ProfilePage";
 import SearchPage from "./pages/SearchPage";
-
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./customComponents/Protection/ProtectedRoute";
 
 function App() {
   return (
     <div>
       <Router>
-        {/* Define Routes */}
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/welcome" element={<LandingPage />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/goal-selection" element={<GoalSelection />} />
-          <Route path="/activity-level" element={<ActivityLevel />} />
-          <Route path="/customize-goal" element={<CustomizeGoal />} />
-          <Route path="/plan" element={<PlanPage />} />
-          <Route path="/progress" element={<ProgressPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/search" element={<SearchPage />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/welcome" element={<LandingPage />} />
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/signup" element={<Signup />} />
+            
+            {/* Protected Routes */}
+            <Route path="/" element={
+              <ProtectedRoute>
+                <HomePage />
+              </ProtectedRoute>
+            } />
+            <Route path="/goal-selection" element={
+              <ProtectedRoute>
+                <GoalSelection />
+              </ProtectedRoute>
+            } />
+            <Route path="/activity-level" element={
+              <ProtectedRoute>
+                <ActivityLevel />
+              </ProtectedRoute>
+            } />
+            <Route path="/customize-goal" element={
+              <ProtectedRoute>
+                <CustomizeGoal />
+              </ProtectedRoute>
+            } />
+            <Route path="/plan" element={
+              <ProtectedRoute>
+                <PlanPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/progress" element={
+              <ProtectedRoute>
+                <ProgressPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            } />
+            <Route path="/search" element={
+              <ProtectedRoute>
+                <SearchPage />
+              </ProtectedRoute>
+            } />
+
+            {/* Fallback route */}
+            <Route path="*" element={<Signin />} />
+          </Routes>
+        </AuthProvider>
       </Router>
     </div>
   );
