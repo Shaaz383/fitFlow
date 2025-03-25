@@ -106,7 +106,7 @@ export function AuthProvider({ children }) {
       const updatedUser = {
         ...currentUser,
         meals: [...currentUser.meals, meal],
-        dailyCalories: currentUser.dailyCalories + meal.calories
+        dailyCalories: currentUser.dailyCalories || 2000
       };
       return updateUserData(updatedUser);
     } catch (error) {
