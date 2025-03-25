@@ -17,10 +17,7 @@ export default function Signin() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
     setError("");
   };
 
@@ -30,25 +27,12 @@ export default function Signin() {
     setError("");
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 500));
+      const result = await login(formData.email, formData.password);
+      if (!result.success) throw new Error(result.error);
       
-      // Get users from localStorage
-      const users = JSON.parse(localStorage.getItem('users')) || [];
-      
-      const user = users.find(
-        user => user.email === formData.email && 
-               user.password === formData.password
-      );
-
-      if (user) {
-        login(user);
-        navigate("/");
-      } else {
-        setError("Invalid email or password");
-      }
+      navigate("/");
     } catch (err) {
-      setError("An error occurred. Please try again.");
-      console.error("Login error:", err);
+      setError(err.message);
     } finally {
       setIsLoading(false);
     }
@@ -69,39 +53,39 @@ export default function Signin() {
         className="w-full max-w-lg bg-gray-900 p-4 rounded-2xl shadow-xl flex flex-col gap-6" 
         onSubmit={handleSubmit}
       >
-        <div className="relative">
-          <input 
-            type="email" 
-            name="email" 
-            required 
-            className="w-full p-4 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500" 
-            onChange={handleChange} 
-            placeholder="Email" 
-            value={formData.email}
-            autoComplete="username"
-          />
-        </div>
+      <div className="relative">
+  <input 
+    type="email" 
+    name="email" 
+    required 
+    className="w-full p-4 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500" 
+    onChange={handleChange} 
+    placeholder="Email" 
+    value={formData.email}
+    autoComplete="username"
+  />
+</div>
 
-        <div className="relative">
-          <input 
-            type="password" 
-            name="password" 
-            required 
-            className="w-full p-4 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500" 
-            onChange={handleChange} 
-            placeholder="Password" 
-            value={formData.password}
-            autoComplete="current-password"
-          />
-        </div>
+<div className="relative">
+  <input 
+    type="password" 
+    name="password" 
+    required 
+    className="w-full p-4 bg-gray-800 text-white rounded-lg border border-gray-600 outline-none focus:border-yellow-500" 
+    onChange={handleChange} 
+    placeholder="Password" 
+    value={formData.password}
+    autoComplete="current-password"
+  />
+</div>
 
-        <Link 
-          to="/forgot-password" 
-          className="text-right text-sm text-yellow-500 hover:underline self-end"
-        >
-          Forgot password?
-        </Link>
-
+<Link 
+  to="/forgot-password" 
+  className="text-right text-sm text-yellow-500 hover:underline self-end"
+>
+  Forgot password?
+</Link>
+        
         <Button 
           type="submit" 
           className="w-full bg-yellow-500 text-black font-bold py-6 rounded text-lg hover:bg-yellow-400 transition disabled:opacity-75"

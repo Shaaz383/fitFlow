@@ -13,13 +13,8 @@ const activityLevels = [
   { id: "athlete", title: "Athlete" },
 ];
 
-const dietOptions = [
-  "Balanced", "Vegetarian", "Vegan", "Keto", "Low Carb"
-];
-
-const goalOptions = [
-  "Lose Weight", "Maintain Weight", "Gain Muscle"
-];
+const dietOptions = ["Balanced", "Vegetarian", "Vegan", "Keto", "Low Carb"];
+const goalOptions = ["Lose Weight", "Maintain Weight", "Gain Muscle"];
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -41,10 +36,7 @@ export default function Signup() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
     setError("");
   };
 
@@ -54,12 +46,10 @@ export default function Signup() {
     setError("");
 
     try {
-      // Basic validation
       if (!formData.name || !formData.email || !formData.password) {
         throw new Error("Please fill in all required fields");
       }
 
-      // Convert numeric fields to numbers
       const userData = {
         ...formData,
         age: Number(formData.age),
@@ -67,7 +57,9 @@ export default function Signup() {
         weight: Number(formData.weight),
       };
 
-      await register(userData);
+      const result = await register(userData);
+      if (!result.success) throw new Error(result.error);
+      
       navigate("/");
     } catch (err) {
       setError(err.message);
@@ -91,7 +83,7 @@ export default function Signup() {
         className="w-full max-w-lg bg-gray-900 p-4 rounded-2xl shadow-xl flex flex-col gap-4"
         onSubmit={handleSubmit}
       >
-        <div className="relative">
+                <div className="relative">
           <input
             type="text"
             name="name"
@@ -219,7 +211,7 @@ export default function Signup() {
             ))}
           </select>
         </div>
-
+        
         <Button
           type="submit"
           className="w-full bg-yellow-500 text-black font-bold py-6 rounded-lg text-lg hover:bg-yellow-400 transition disabled:opacity-75"
