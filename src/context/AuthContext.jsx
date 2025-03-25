@@ -7,6 +7,7 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Load user from localStorage on initial render
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     if (user) {
@@ -14,6 +15,19 @@ export function AuthProvider({ children }) {
     }
     setIsLoading(false);
   }, []);
+
+  // Helper function to update both users array and currentUser
+  const updateUserData = (updatedUser) => {
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const updatedUsers = users.map(user => 
+      user.email === currentUser.email ? updatedUser : user
+    );
+    
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+    setCurrentUser(updatedUser);
+    return { success: true };
+  };
 
   const register = async (userData) => {
     try {
@@ -35,7 +49,8 @@ export function AuthProvider({ children }) {
           lastUpdated: new Date().toISOString()
         },
         meals: [],
-        dailyCalories: 2000
+        dailyCalories: 2000,
+        preferences: []
       };
       
       users.push(newUser);
@@ -72,7 +87,6 @@ export function AuthProvider({ children }) {
 
   const updateUserStats = async (updatedStats) => {
     try {
-      const users = JSON.parse(localStorage.getItem('users')) || [];
       const updatedUser = {
         ...currentUser,
         stats: {
@@ -81,15 +95,7 @@ export function AuthProvider({ children }) {
           lastUpdated: new Date().toISOString()
         }
       };
-      
-      const updatedUsers = users.map(user => 
-        user.email === currentUser.email ? updatedUser : user
-      );
-      
-      localStorage.setItem('users', JSON.stringify(updatedUsers));
-      localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-      setCurrentUser(updatedUser);
-      return { success: true };
+      return updateUserData(updatedUser);
     } catch (error) {
       return { success: false, error: error.message };
     }
@@ -97,21 +103,41 @@ export function AuthProvider({ children }) {
 
   const addMeal = async (meal) => {
     try {
-      const users = JSON.parse(localStorage.getItem('users')) || [];
       const updatedUser = {
         ...currentUser,
         meals: [...currentUser.meals, meal],
         dailyCalories: currentUser.dailyCalories + meal.calories
       };
-      
-      const updatedUsers = users.map(user => 
-        user.email === currentUser.email ? updatedUser : user
-      );
-      
-      localStorage.setItem('users', JSON.stringify(updatedUsers));
-      localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-      setCurrentUser(updatedUser);
-      return { success: true };
+      return updateUserData(updatedUser);
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  };
+
+  const updateUserProfile = async (updatedProfile) => {
+    try {
+      const updatedUser = {
+        ...currentUser,
+        ...updatedProfile,
+        stats: {
+          ...currentUser.stats,
+          weight: updatedProfile.weight || currentUser.stats.weight,
+          lastUpdated: new Date().toISOString()
+        }
+      };
+      return updateUserData(updatedUser);
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  };
+
+  const updatePreferences = async (preferences) => {
+    try {
+      const updatedUser = {
+        ...currentUser,
+        preferences: preferences
+      };
+      return updateUserData(updatedUser);
     } catch (error) {
       return { success: false, error: error.message };
     }
@@ -124,7 +150,9 @@ export function AuthProvider({ children }) {
     login,
     logout,
     updateUserStats,
-    addMeal
+    addMeal,
+    updateUserProfile,
+    updatePreferences
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
