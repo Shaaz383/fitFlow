@@ -1,6 +1,4 @@
 // src/components/QuickStats/StatCard.js
-import { FaWalking, FaTint } from "react-icons/fa";
-
 const StatCard = ({ stat, onIncreaseWater, onOpenStepsModal }) => {
   return (
     <div className="bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 relative">

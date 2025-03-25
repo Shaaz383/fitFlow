@@ -1,13 +1,16 @@
 // src/components/QuickStats.js
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { WeightContext } from "@/context/WeightContext";
 import { useAuth } from "@/context/AuthContext";
 import WeightGoalInput from "../Planpage/WeightGoalInput";
 import StatCard from "./QuickStats/StatCard";
 import StepsModal from "./Quickstats/StepsModal";
 import GoalCard from "./Quickstats/GoalModal";
+import { FaWeight, FaWalking, FaTint } from "react-icons/fa";
 
-const QuickStats = ({ stats, updateStat }) => {
+
+
+const QuickStats = ({ updateStat }) => {
   const [isGoalModalOpen, setIsGoalModalOpen] = useState(false);
   const [isStepsModalOpen, setIsStepsModalOpen] = useState(false);
   const [newSteps, setNewSteps] = useState("");
@@ -21,39 +24,81 @@ const QuickStats = ({ stats, updateStat }) => {
     setGoalType,
   } = useContext(WeightContext);
 
-  const handleUpdateSteps = () => {
+  // Create stats array with real-time values from localStorage
+  const [stats, setStats] = useState([
+    { 
+      icon: <FaWeight className="text-yellow-400 text-4xl" />, 
+      title: "Weight", 
+      value: `${currentUser?.stats?.weight || currentWeight || 0} kg` 
+    },
+    { 
+      icon: <FaWalking className="text-green-400 text-4xl" />, 
+      title: "Steps Today", 
+      value: `${currentUser?.stats?.steps || 0}` 
+    },
+    { 
+      icon: <FaTint className="text-blue-400 text-4xl" />, 
+      title: "Water", 
+      value: `${currentUser?.stats?.water || 0} L` 
+    },
+  ]);
+
+  // Update stats when currentUser changes
+  useEffect(() => {
+    if (currentUser?.stats) {
+      setStats([
+        { 
+          icon: <FaWeight className="text-yellow-400 text-4xl" />, 
+          title: "Weight", 
+          value: `${currentUser.stats.weight || currentWeight || 0} kg` 
+        },
+        { 
+          icon: <FaWalking className="text-green-400 text-4xl" />, 
+          title: "Steps Today", 
+          value: `${currentUser.stats.steps || 0}` 
+        },
+        { 
+          icon: <FaTint className="text-blue-400 text-4xl" />, 
+          title: "Water", 
+          value: `${currentUser.stats.water || 0} L` 
+        },
+      ]);
+    }
+  }, [currentUser, currentWeight]);
+
+  const handleUpdateSteps = async () => {
     if (newSteps.trim() !== "") {
-      updateStat("Steps Today", `${newSteps} Steps`);
-      updateUserStats({ steps: parseInt(newSteps) });
+      const stepsValue = parseInt(newSteps);
+      await updateUserStats({ steps: stepsValue });
+      
+      // Update local state to reflect changes immediately
+      setStats(prevStats => prevStats.map(stat => 
+        stat.title === "Steps Today" 
+          ? { ...stat, value: `${stepsValue}` } 
+          : stat
+      ));
+      
       setNewSteps("");
       setIsStepsModalOpen(false);
     }
   };
 
   const handleIncreaseWater = async () => {
-    const waterStat = stats.find((stat) => stat.title === "Water");
-    if (waterStat) {
-      const currentWater = parseFloat(waterStat.value);
-      const newWater = (currentWater + 0.25).toFixed(2);
-      updateStat("Water", `${newWater} L`);
-      await updateUserStats({ water: parseFloat(newWater) });
-    }
+    const currentWater = parseFloat(currentUser?.stats?.water || 0);
+    const newWater = (currentWater + 0.25).toFixed(2);
+    await updateUserStats({ water: parseFloat(newWater) });
+    
+    // Update local state to reflect changes immediately
+    setStats(prevStats => prevStats.map(stat => 
+      stat.title === "Water" 
+        ? { ...stat, value: `${newWater} L` } 
+        : stat
+    ));
   };
-
-  // Create stats array with current weight from localStorage
-  const updatedStats = stats.map(stat => {
-    if (stat.title === "Weight") {
-      return {
-        ...stat,
-        value: `${currentUser?.stats?.weight || currentWeight || 0} kg`
-      };
-    }
-    return stat;
-  });
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-      {updatedStats.map((stat, index) => (
+      {stats.map((stat, index) => (
         <StatCard
           key={index}
           stat={stat}
