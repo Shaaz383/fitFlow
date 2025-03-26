@@ -76,13 +76,13 @@ const ProgressPage = () => {
           icon={FaWeight} 
           label="Current Weight" 
           value={userData?.stats?.weight ? `${userData.stats.weight} kg` : "N/A"} 
-          color="bg-blue-500" 
+          // color="bg-blue-500" 
         />
         <StatCard 
           icon={FaBullseye} 
           label="Goal Weight" 
           value={userData?.stats?.goalWeight ? `${userData.stats.goalWeight} kg` : "N/A"} 
-          color="bg-green-500" 
+          // color="bg-green-500" 
         />
       </div>
 
