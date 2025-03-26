@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logoDark.png";
 import { useAuth } from "@/context/AuthContext";
 
-export default function Signin() {
+export default function SignIn() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",

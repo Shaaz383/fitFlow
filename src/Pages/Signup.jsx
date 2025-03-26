@@ -16,7 +16,7 @@ const activityLevels = [
 const dietOptions = ["Balanced", "Vegetarian", "Vegan", "Keto", "Low Carb"];
 const goalOptions = ["Lose Weight", "Maintain Weight", "Gain Muscle"];
 
-export default function Signup() {
+export default function SignUp() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
