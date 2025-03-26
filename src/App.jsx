@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Signin from "./pages/Signin";
-import Signup from "./pages/Signup";
+import Signin from "./pages/SignIn.jsx";
+import Signup from "./pages/Signup.jsx";
 import LandingPage from "./pages/LandingPage";
 import GoalSelection from "./pages/GoalSelection";
 import ActivityLevel from "./pages/ActivityLevel";
