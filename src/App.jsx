@@ -1,6 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SignIn from "./pages/SignIn.jsx";
-import SignUp from "./pages/SignUp.jsx";
 
 
 import LandingPage from "./pages/LandingPage";
@@ -14,6 +12,8 @@ import ProfilePage from "./pages/ProfilePage";
 import SearchPage from "./pages/SearchPage";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./customComponents/Protection/ProtectedRoute";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 
 function App() {
   return (
