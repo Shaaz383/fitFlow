@@ -3,7 +3,7 @@ import { useState, useContext, useEffect } from "react";
 import { WeightContext } from "@/context/WeightContext";
 import { useAuth } from "@/context/AuthContext";
 import WeightGoalInput from "../Planpage/WeightGoalInput";
-import StatCard from "./QuickStats/StatCard";
+import StatCard from "./Quickstats/StatCard";
 import StepsModal from "./Quickstats/StepsModal";
 import GoalCard from "./Quickstats/GoalModal";
 import { FaWeight, FaWalking, FaTint } from "react-icons/fa";
