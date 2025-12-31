@@ -1,18 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
-import LandingPage from "./Pages/LandingPage.jsx";
-import GoalSelection from "./Pages/GoalSelection.jsx";
-import ActivityLevel from "./Pages/ActivityLevel.jsx";
-import CustomizeGoal from "./Pages/CustomizeGoal.jsx";
-import PlanPage from "./Pages/PlanPage.jsx";
-import ProgressPage from "./Pages/ProgressPage.jsx";
-import HomePage from "./Pages/HomePage.jsx";
-import ProfilePage from "./Pages/ProfilePage.jsx";
-import SearchPage from "./Pages/SearchPage.jsx";
+import LandingPage from "./Views/LandingPage.jsx";
+import GoalSelection from "./Views/GoalSelection.jsx";
+import ActivityLevel from "./Views/ActivityLevel.jsx";
+import CustomizeGoal from "./Views/CustomizeGoal.jsx";
+import PlanPage from "./Views/PlanPage.jsx";
+import ProgressPage from "./Views/ProgressPage.jsx";
+import HomePage from "./Views/HomePage.jsx";
+import ProfilePage from "./Views/ProfilePage.jsx";
+import SearchPage from "./Views/SearchPage.jsx";
 import ProtectedRoute from "./customComponents/Protection/ProtectedRoute.jsx";
-import SignIn from "./Pages/SignIn.jsx";
-import SignUp from "./Pages/SignUp.jsx";
+import SignIn from "./Views/SignIn.jsx";
+import SignUp from "./Views/SignUp.jsx";
 
 function App() {
   return (
