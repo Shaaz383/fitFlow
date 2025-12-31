@@ -10,7 +10,6 @@ import ProgressPage from "./pages/ProgressPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
-import { AuthProvider } from "./context/AuthContext.jsx";
 import ProtectedRoute from "./customComponents/Protection/ProtectedRoute.jsx";
 import SignIn from "./pages/SignIn.jsx";
 import SignUp from "./pages/SignUp.jsx";
@@ -19,7 +18,6 @@ function App() {
   return (
     <div>
       <Router>
-        <AuthProvider>
           <Routes>
             {/* Public Routes */}
             <Route path="/welcome" element={<LandingPage />} />
@@ -95,7 +93,6 @@ function App() {
             {/* Fallback route */}
             <Route path="*" element={<SignIn />} />
           </Routes>
-        </AuthProvider>
       </Router>
     </div>
   );
